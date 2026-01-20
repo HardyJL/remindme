@@ -90,52 +90,6 @@ class NotificationService {
     }
   }
 
-  // Future<void> testNotificationInTenSeconds() async {
-  //   try {
-  //     final now = tz.TZDateTime.now(tz.local);
-  //     final scheduledDate = now.add(const Duration(seconds: 10));
-  //
-  //     print('DEBUG: Current time: $now');
-  //     print('DEBUG: Scheduled time: $scheduledDate');
-  //
-  //     await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       'Reminder',
-  //       'Time to check: Test',
-  //       scheduledDate,
-  //       const NotificationDetails(
-  //         android: AndroidNotificationDetails(
-  //           'daily_reminder_channel_v3', // Changed channel ID
-  //           'Daily Reminders V2',
-  //           channelDescription: 'Channel for weekday reminders',
-  //           importance: Importance.max,
-  //           priority: Priority.high,
-  //         ),
-  //         iOS: DarwinNotificationDetails(),
-  //       ),
-  //       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-  //     );
-  //     print('Notification scheduled successfully');
-  //
-  //     final pending = await flutterLocalNotificationsPlugin
-  //         .pendingNotificationRequests();
-  //     print('DEBUG: Pending notifications count: ${pending.length}');
-  //     for (var p in pending) {
-  //       print(
-  //         'DEBUG: Pending notification: id=${p.id}, title=${p.title}, body=${p.body}',
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print('Error scheduling notification: $e');
-  //   }
-  //   final List<PendingNotificationRequest> pending =
-  //       await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-  //   print("Pending notifications: ${pending.length}");
-  //   for (var p in pending) {
-  //     print("Pending notification: ${p.id} at ${p.body}");
-  //   }
-  // }
-
   Future<void> _scheduleWeeklyNotification({
     required int id,
     required String title,
@@ -190,5 +144,9 @@ class NotificationService {
       scheduledDate = scheduledDate.add(const Duration(days: 7));
     }
     return scheduledDate;
+  }
+
+  Future<List<PendingNotificationRequest>> getScheduledNotifications() async {
+    return await flutterLocalNotificationsPlugin.pendingNotificationRequests();
   }
 }

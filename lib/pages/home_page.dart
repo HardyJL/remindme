@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:remindme/pages/task_page.dart';
+import 'package:remindme/pages/settings_page.dart';
 import 'package:remindme/widgets/task_card.dart';
 import 'package:remindme/task.dart';
 
@@ -21,7 +22,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Remind Me')),
+      appBar: AppBar(
+        title: const Text('Remind Me'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const SettingsPage()),
+            ),
+          ),
+        ],
+      ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<Task>('tasks').listenable(),
         builder: (context, box, _) {

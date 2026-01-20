@@ -8,18 +8,19 @@ import 'package:remindme/services/notification_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
+  final notificationService = NotificationService();
+  GetIt.I.registerSingleton<NotificationService>(notificationService);
   final hiveService = HiveService();
   await hiveService.init();
-  final notificationService = NotificationService();
   await notificationService.init();
+  // technically we should deal with rejected permissions here
   await notificationService.requestPermissions();
-  GetIt.I.registerSingleton<NotificationService>(notificationService);
   GetIt.I.registerSingleton<HiveService>(hiveService);
-  notificationService.scheduleWeekdayNotifications(
-    hiveService.getTasks(),
-    8,
-    0,
-  );
+  // notificationService.scheduleWeekdayNotifications(
+  //   hiveService.getTasks(),
+  //   8,
+  //   0,
+  // );
   runApp(const App());
 }
 
