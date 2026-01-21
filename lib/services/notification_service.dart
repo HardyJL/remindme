@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:flutter/foundation.dart';
 import 'package:remindme/task.dart' hide Priority;
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -8,10 +9,13 @@ import 'dart:io';
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
   factory NotificationService() => _instance;
-  NotificationService._internal();
+  NotificationService._internal()
+      : flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  @visibleForTesting
+  NotificationService.test(this.flutterLocalNotificationsPlugin);
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future<void> init() async {
     tz.initializeTimeZones(); // Initialize timezone database
